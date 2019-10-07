@@ -65,6 +65,10 @@ public class ORSWeightingFactory implements WeightingFactory {
 	         else
 	        	 result = new FastestWeighting(encoder, hintsMap);
 		}
+		else if ("maximum_speed".equalsIgnoreCase(strWeighting)){
+			double userSpeed=hintsMap.getUserMaxSpeed();
+			result = new MaximumSpeedWeighting(encoder, hintsMap);
+		}
 		else  if ("priority".equalsIgnoreCase(strWeighting))
 		{
 			result = new PreferencePriorityWeighting(encoder, hintsMap);
@@ -135,6 +139,7 @@ public class ORSWeightingFactory implements WeightingFactory {
 					softWeightings.add(new SteepnessDifficultyWeighting(encoder, getWeightingProps(weightingName, map), graphStorage));
 					break;
 				case "avoid_hills":
+					softWeightings.add(new AvoidHillsWeighting(encoder, getWeightingProps(weightingName, map), graphStorage));
 					softWeightings.add(new AvoidHillsWeighting(encoder, getWeightingProps(weightingName, map), graphStorage));
 					break;
 				case "green":

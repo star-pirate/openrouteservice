@@ -20,6 +20,7 @@ import heigit.ors.common.StatusCode;
 import heigit.ors.exceptions.*;
 import heigit.ors.localization.LocalizationManager;
 import heigit.ors.routing.*;
+import heigit.ors.routing.graphhopper.extensions.weighting.MaximumSpeedWeighting;
 import heigit.ors.util.ArraysUtility;
 import heigit.ors.util.CoordTools;
 import heigit.ors.util.DistanceUnitUtil;
@@ -254,6 +255,27 @@ public class RoutingRequestParser
 		if (!Helper.isEmpty(value))
 			req.setId(value);
 
-		return req;		
+
+		value = request.getParameter("user_speed");
+		if (!Helper.isEmpty(value)){
+			try{
+				double speed=Double.parseDouble(value);
+				if(speed < (double)80){
+					throw new ParameterValueException(RoutingErrorCodes.INVALID_PARAMETER_FORMAT, "user_speed");
+				}
+			}
+			catch(Exception ex)
+			{
+				throw new ParameterValueException(RoutingErrorCodes.INVALID_PARAMETER_FORMAT, "user_speed");
+			}
+			req.setUserSpeed(Double.parseDouble(value));
+			searchParams.setUserSpeed(Double.parseDouble(value));
+			MaximumSpeedWeighting.setUserRouteSearchParametersMaxSpeed(Double.parseDouble(value));
+			MaximumSpeedWeighting.setUserRoutingRequestMaxSpeed(Double.parseDouble(value));
+
+		}
+
+		return req;
+
 	}
 }

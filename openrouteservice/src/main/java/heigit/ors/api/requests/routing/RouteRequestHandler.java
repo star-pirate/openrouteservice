@@ -134,6 +134,11 @@ public class RouteRequestHandler extends GenericHandler {
         if (request.hasSuppressWarnings())
             routingRequest.setSuppressWarnings(request.getSuppressWarnings());
 
+        if(request.hasUserSpeed()){
+            routingRequest.setUserSpeed(convertUserSpeed(request.getUserSpeed()));
+        }
+
+
         RouteSearchParameters params = new RouteSearchParameters();
 
         try {
@@ -159,6 +164,10 @@ public class RouteRequestHandler extends GenericHandler {
 
         if(request.hasRouteOptions()) {
             params = processRouteRequestOptions(request, params);
+        }
+
+        if(request.hasUserSpeed()){
+            params.setUserSpeed(convertUserSpeed(request.getUserSpeed()));
         }
 
         params.setConsiderTraffic(false);
@@ -451,6 +460,15 @@ public class RouteRequestHandler extends GenericHandler {
             }
         }
 
+
         return avoidCountryIds;
     }
-}
+
+    private double convertUserSpeed(Double userSpeed) throws ParameterValueException{
+        if(userSpeed < 70){
+            throw new ParameterValueException(RoutingErrorCodes.INVALID_PARAMETER_VALUE, RouteRequest.PARAM_USER_SPEED);
+        }
+
+        return userSpeed;
+    }
+    }

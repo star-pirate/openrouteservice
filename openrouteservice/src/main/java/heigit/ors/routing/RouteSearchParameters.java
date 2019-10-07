@@ -29,7 +29,6 @@ import heigit.ors.routing.pathprocessors.BordersExtractor;
 import heigit.ors.util.StringUtility;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.text.ParseException;
 import java.util.Iterator;
 
@@ -54,6 +53,8 @@ public class RouteSearchParameters {
 
     private int[] _avoidCountries = null;
     private BordersExtractor.Avoid _avoidBorders = BordersExtractor.Avoid.NONE;
+
+    private double _userSpeed;
 
     private String _options;
 
@@ -147,6 +148,10 @@ public class RouteSearchParameters {
     public void setVehicleType(int vehicleType) {
         this._vehicleType = vehicleType;
     }
+
+    public double getUserSpeed() {return _userSpeed;}
+
+    public void setUserSpeed(double userSpeed) { this._userSpeed = userSpeed;}
 
     public String getOptions() {
         return _options;
@@ -416,6 +421,7 @@ public class RouteSearchParameters {
         return RoutingProfileType.isHeavyVehicle(this.getProfileType());
     }
 
+
     public boolean requiresDynamicWeights() {
         return hasAvoidAreas()
             || hasAvoidFeatures()
@@ -427,7 +433,8 @@ public class RouteSearchParameters {
             || isProfileTypeHeavyVehicle() && getVehicleType() > 0
             || isProfileTypeDriving() && hasParameters(VehicleParameters.class)
             || isProfileTypeDriving() && getConsiderTraffic()
-        ;
+            || getWeightingMethod() == WeightingMethod.MAXIMUM_SPEED
+            ;
     }
 
     /**

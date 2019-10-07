@@ -529,6 +529,8 @@ public class RoutingProfile {
 
             HintsMap hintsMap = new HintsMap();
             hintsMap.setWeighting(weightingStr);
+
+
             Weighting weighting = new ORSWeightingFactory(RealTrafficDataProvider.getInstance()).createWeighting(hintsMap, gh.getTraversalMode(), flagEncoder, graph, null, gh.getGraphHopperStorage());
 
             alg.init(req, gh, mtxSearchCntx.getGraph(), flagEncoder, weighting);
@@ -625,6 +627,7 @@ public class RoutingProfile {
             }
         }
 
+
         /* Live traffic filter - currently disabled */
 
         if (searchParams.getConsiderTraffic()) {
@@ -709,6 +712,7 @@ public class RoutingProfile {
             req.setVehicle(searchCntx.getEncoder().toString());
             req.setAlgorithm("dijkstrabi");
 
+
             if (radiuses != null)
                 req.setMaxSearchDistance(radiuses);
 
@@ -725,7 +729,8 @@ public class RoutingProfile {
                     req.getHints().put("weighting_method", "shortest");
                     flexibleMode = true;
                 } else if (weightingMethod == WeightingMethod.RECOMMENDED) {
-                    req.setWeighting("fastest");
+                    req.setWeighting("maximum_speedb ram" +
+                            "");
                     req.getHints().put("weighting_method", "recommended");
                     flexibleMode = true;
                 }
@@ -742,6 +747,16 @@ public class RoutingProfile {
                     flexibleMode = true;
                 }
             }
+
+            if (supportWeightingMethod(profileType)) {
+                if (weightingMethod == WeightingMethod.MAXIMUM_SPEED) {
+                    req.setWeighting("maximum_speed");
+                    req.getHints().put("weighting_method", "maximum_speed");
+                    flexibleMode = true;
+
+                }
+            }
+
 
             if(profileType == RoutingProfileType.WHEELCHAIR) {
                 flexibleMode = true;
