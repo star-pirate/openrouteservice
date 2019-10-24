@@ -13,7 +13,7 @@ import heigit.ors.routing.RoutingRequest;
 public class MaximumSpeedWeighting extends FastestWeighting {
     protected final static double SPEED_CONV = 3.6; //From km/h to m/s.
     private final double headingPenalty;
-    private double userMaxSpeed;
+    static double userMaxSpeed;
 
 
     private static RouteSearchParameters searchParameters= new RouteSearchParameters();
@@ -38,11 +38,10 @@ public class MaximumSpeedWeighting extends FastestWeighting {
 
     public static void setUserRoutingRequestMaxSpeed(double speed){
         req.setUserSpeed(speed);
-        //userMaxSpeed = rspspeed >= 80.0 ? rspspeed : 80.0;
+        userMaxSpeed = rspspeed >= 80.0 ? rspspeed : 80.0;
     }
 
 
-    @Override
     public double calcWeight(EdgeIteratorState edge, boolean reverse, int prevOrNextEdgeId) {
         double speed = reverse ? flagEncoder.getReverseSpeed(edge.getFlags()) : flagEncoder.getSpeed(edge.getFlags());
         if (speed == 0) {
@@ -60,24 +59,8 @@ public class MaximumSpeedWeighting extends FastestWeighting {
 
             return time;
         }else{
-            double time = edge.getDistance() / speed * SPEED_CONV;
-
-            // add direction penalties at start/stop/via points
-            boolean unfavoredEdge = edge.getBool(EdgeIteratorState.K_UNFAVORED_EDGE, false);
-            if (unfavoredEdge)
-                time += headingPenalty;
-
-            return time;
-
-        }
-
-
-        /*
-        else{
             return super.calcWeight(edge, reverse,  prevOrNextEdgeId);
         }
-
-         */
     }
 
     @Override
