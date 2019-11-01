@@ -30,7 +30,7 @@ public class MaximumSpeedWeighting extends FastestWeighting {
     public MaximumSpeedWeighting(FlagEncoder encoder, HintsMap map) {
         super(encoder, map);
         headingPenalty = map.getDouble(Routing.HEADING_PENALTY, Routing.DEFAULT_HEADING_PENALTY);
-        userMaxSpeed = map.getUserMaxSpeed();
+        userMaxSpeed = map.getUserSpeed();
     }
 
     public static void setUserRouteSearchParametersMaxSpeed(double speed){

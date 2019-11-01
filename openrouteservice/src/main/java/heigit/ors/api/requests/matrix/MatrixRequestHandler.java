@@ -80,6 +80,8 @@ public class MatrixRequestHandler {
             coreRequest.setResolveLocations(request.getResolveLocations());
         if (request.hasUnits())
             coreRequest.setUnits(convertUnits(request.getUnits()));
+        if (request.hasUserSpeed())
+            coreRequest.setUserSpeed(convertUserSpeed(request.getUserSpeed()));
 
         return coreRequest;
     }
@@ -173,5 +175,13 @@ public class MatrixRequestHandler {
         } catch (Exception e) {
             throw new ParameterValueException(MatrixErrorCodes.INVALID_PARAMETER_VALUE, MatrixRequest.PARAM_PROFILE);
         }
+    }
+
+    private static double convertUserSpeed(Double userSpeed) throws ParameterValueException{
+        if(userSpeed < 80){
+            throw new ParameterValueException(MatrixErrorCodes.INVALID_PARAMETER_VALUE, MatrixRequest.PARAM_USER_SPEED);
+        }
+
+        return userSpeed;
     }
 }

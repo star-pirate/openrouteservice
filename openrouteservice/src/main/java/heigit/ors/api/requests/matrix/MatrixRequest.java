@@ -41,6 +41,7 @@ public class MatrixRequest {
     public static final String PARAM_RESOLVE_LOCATIONS = "resolve_locations";
     public static final String PARAM_UNITS = "units";
     public static final String PARAM_OPTIMIZED = "optimized";
+    public static final String PARAM_USER_SPEED = "user_speed";
 
     @ApiModelProperty(name = "PARAM_ID", value = "Arbitrary identification string of the request reflected in the meta information.",
             example = "matrix_request")
@@ -106,6 +107,13 @@ public class MatrixRequest {
     public MatrixRequest(@JsonProperty(value = "locations", required = true) List<List<Double>> locations) {
         this.locations = locations;
     }
+
+    @ApiModelProperty(name = PARAM_USER_SPEED, value = "The maximum speed specified by user.",
+            example = "90")
+    @JsonProperty(PARAM_USER_SPEED)
+    private double userSpeed;
+    @JsonIgnore
+    private Boolean hasUserSpeed = false;
 
     public MatrixRequest(Double[][] locations) throws ParameterValueException {
         if (locations.length < 2) {
@@ -237,5 +245,16 @@ public class MatrixRequest {
     public void setResponseType(APIEnums.MatrixResponseType responseType) {
         this.responseType = responseType;
     }
+
+    public void setUserSpeed(Double userSpeed) {
+        this.userSpeed = userSpeed;
+        hasUserSpeed = true;
+    }
+
+    public double getUserSpeed() {
+        return userSpeed;
+    }
+
+    public boolean hasUserSpeed() { return hasUserSpeed; }
 }
 

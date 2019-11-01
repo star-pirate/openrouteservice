@@ -529,6 +529,7 @@ public class RoutingProfile {
 
             HintsMap hintsMap = new HintsMap();
             hintsMap.setWeighting(weightingStr);
+            hintsMap.setUserSpeed(req.getUserSpeed());
 
 
             Weighting weighting = new ORSWeightingFactory(RealTrafficDataProvider.getInstance()).createWeighting(hintsMap, gh.getTraversalMode(), flagEncoder, graph, null, gh.getGraphHopperStorage());
