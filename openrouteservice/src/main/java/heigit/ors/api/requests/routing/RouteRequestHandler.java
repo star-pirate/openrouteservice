@@ -465,7 +465,7 @@ public class RouteRequestHandler extends GenericHandler {
     }
 
     private double convertUserSpeed(Double userSpeed) throws ParameterValueException{
-        if(userSpeed < 70){
+        if(userSpeed < 80){
             throw new ParameterValueException(RoutingErrorCodes.INVALID_PARAMETER_VALUE, RouteRequest.PARAM_USER_SPEED);
         }
 

@@ -6,6 +6,7 @@ import com.graphhopper.routing.weighting.FastestWeighting;
 import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.PMap;
 import com.graphhopper.util.Parameters.Routing;
+import heigit.ors.api.requests.routing.RouteRequest;
 import heigit.ors.routing.RouteSearchParameters;
 import heigit.ors.routing.RoutingRequest;
 
@@ -14,12 +15,14 @@ public class MaximumSpeedWeighting extends FastestWeighting {
     protected final static double SPEED_CONV = 3.6; //From km/h to m/s.
     private final double headingPenalty;
     static double userMaxSpeed;
+   //double userMaxSpeedTest= RouteRequest.getUserSpeed()''
+
 
 
     private static RouteSearchParameters searchParameters= new RouteSearchParameters();
     private static double rspspeed ;
 
-    private static RoutingRequest req = new RoutingRequest();
+    private  static RoutingRequest req = new RoutingRequest();
     private static double rqspeed;
 
 
