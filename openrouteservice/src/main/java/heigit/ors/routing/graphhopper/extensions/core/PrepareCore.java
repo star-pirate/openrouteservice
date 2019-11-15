@@ -508,10 +508,19 @@ public class PrepareCore extends AbstractAlgoPreparation implements RoutingAlgor
         // TODO: Proper way of switching between Dijkstra and AStar in core
         String algoStr = ASTAR_BI;
 
+        String test = opts.getHints().get("weighting_method","fastest");
+        Weighting testWeighting = opts.getWeighting();
         if (ASTAR_BI.equals(algoStr)) {
-            CoreALT tmpAlgo = new CoreALT(graph, prepareWeighting, traversalMode);
-            tmpAlgo.setApproximation(RoutingAlgorithmFactorySimple.getApproximation(ASTAR_BI, opts, graph.getNodeAccess()));
-            algo = tmpAlgo;
+            if(opts.getHints().get("weighting_method","fastest") == "maximum_speed") {
+                CoreALT tmpAlgo = new CoreALT(graph, opts.getWeighting(), traversalMode);
+                tmpAlgo.setApproximation(RoutingAlgorithmFactorySimple.getApproximation(ASTAR_BI, opts, graph.getNodeAccess()));
+                algo = tmpAlgo;
+            }
+            else{
+                CoreALT tmpAlgo = new CoreALT(graph, prepareWeighting, traversalMode);
+                tmpAlgo.setApproximation(RoutingAlgorithmFactorySimple.getApproximation(ASTAR_BI, opts, graph.getNodeAccess()));
+                algo = tmpAlgo;
+            }
         } else if (DIJKSTRA_BI.equals(algoStr)) {
             algo = new CoreDijkstra(graph, prepareWeighting, traversalMode);
         } else {

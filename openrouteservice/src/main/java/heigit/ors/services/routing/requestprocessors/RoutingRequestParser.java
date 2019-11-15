@@ -271,8 +271,8 @@ public class RoutingRequestParser
 			req.setUserSpeed(Double.parseDouble(value));
 			searchParams.setUserSpeed(Double.parseDouble(value));
 			//Use it until finding an alternative to this deprecated class!
-			MaximumSpeedWeighting.setUserRouteSearchParametersMaxSpeed(Double.parseDouble(value));
-			MaximumSpeedWeighting.setUserRoutingRequestMaxSpeed(Double.parseDouble(value));
+			//MaximumSpeedWeighting.setUserRouteSearchParametersMaxSpeed(Double.parseDouble(value));
+			//MaximumSpeedWeighting.setUserRoutingRequestMaxSpeed(Double.parseDouble(value));
 
 		}
 

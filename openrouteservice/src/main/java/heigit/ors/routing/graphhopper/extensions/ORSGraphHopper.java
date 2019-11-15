@@ -46,6 +46,7 @@ import heigit.ors.routing.graphhopper.extensions.edgefilters.core.*;
 import heigit.ors.routing.graphhopper.extensions.reader.borders.CountryBordersReader;
 import heigit.ors.routing.graphhopper.extensions.util.ORSParameters;
 import heigit.ors.routing.graphhopper.extensions.util.ORSParameters.Core;
+import heigit.ors.routing.graphhopper.extensions.weighting.MaximumSpeedWeighting;
 import heigit.ors.util.CoordTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,6 +56,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.locks.Lock;
 
+import static com.graphhopper.util.Helper.toLowerCase;
 import static com.graphhopper.util.Parameters.Algorithms.*;
 
 
@@ -325,6 +327,10 @@ public class ORSGraphHopper extends GraphHopper {
 					throw new IllegalArgumentException(
 							"The max_visited_nodes parameter has to be below or equal to:" + getMaxVisitedNodes());
 
+				if(hints.get("weighting_method", "").toLowerCase() =="maximum_speed") {
+					weighting = new MaximumSpeedWeighting(encoder, hints);
+				}
+
 				weighting = createTurnWeighting(queryGraph, weighting, tMode);
 
 				AlgorithmOptions algoOpts = AlgorithmOptions.start().algorithm(algoStr).traversalMode(tMode)
@@ -531,7 +537,7 @@ public class ORSGraphHopper extends GraphHopper {
 		}
 
 		if (routingProfileCategory !=0 & encodingManager.supports("car-ors")) {
-			FlagEncoder flagEncoder=getEncodingManager().getEncoder("car-ors"); // Set encoder only for heavy vehicles.
+			FlagEncoder flagEncoder=getEncodingManager().getEncoder("car-ors"); // Set encoder only for cars.
 			coreEdgeFilter.add(new MaximumSpeedCoreEdgeFilter(flagEncoder, gs));
 		}
 

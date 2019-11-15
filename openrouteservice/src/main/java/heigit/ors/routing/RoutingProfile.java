@@ -529,7 +529,6 @@ public class RoutingProfile {
 
             HintsMap hintsMap = new HintsMap();
             hintsMap.setWeighting(weightingStr);
-            hintsMap.setUserSpeed(req.getUserSpeed());
 
 
             Weighting weighting = new ORSWeightingFactory(RealTrafficDataProvider.getInstance()).createWeighting(hintsMap, gh.getTraversalMode(), flagEncoder, graph, null, gh.getGraphHopperStorage());
@@ -751,10 +750,9 @@ public class RoutingProfile {
 
             if (supportWeightingMethod(profileType)) {
                 if (weightingMethod == WeightingMethod.MAXIMUM_SPEED) {
-                    req.setWeighting("maximum_speed");
+                    req.setWeighting("fastest");
                     req.getHints().put("weighting_method", "maximum_speed");
-                    flexibleMode = true;
-
+                    req.getHints().put("user_speed",searchParams.getUserSpeed());
                 }
             }
 

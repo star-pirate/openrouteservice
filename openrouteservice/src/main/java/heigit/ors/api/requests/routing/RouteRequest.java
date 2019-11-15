@@ -245,7 +245,7 @@ public class RouteRequest {
     @JsonProperty(PARAM_USER_SPEED)
     private double userSpeed;
     @JsonIgnore
-    private Boolean hasUserSpeed = false;
+    private boolean hasUserSpeed = false;
 
 
 
