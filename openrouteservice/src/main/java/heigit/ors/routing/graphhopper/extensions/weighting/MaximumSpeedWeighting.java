@@ -54,10 +54,12 @@ public class MaximumSpeedWeighting extends FastestWeighting {
             if (speed == 0) {
                 return Double.POSITIVE_INFINITY;
             }
-            //Find the minimum of the two values. if (speed > userMaxSpeed) -> userMaxSpeed, else -> speed
-            speed =  java.lang.Math.min(userMaxSpeed, speed);
-            //Convert speed to time
-            return speedToTime(speed, edge);
+            if(speed > userMaxSpeed) {
+                speed = userMaxSpeed;
+                return speedToTime(speed, edge);
+            }else{
+                return super.calcWeight(edge, reverse, prevOrNextEdgeId);
+            }
         }
     }
 
