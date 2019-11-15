@@ -21,57 +21,44 @@ public class MaximumSpeedWeighting extends FastestWeighting {
         weighting = map.get("weighting","fastest");
     }
 
+    private double speedToTime(double speed, EdgeIteratorState edge){
+        //Conversion of the speeds taken from the edges into time adding the penalties
+        double time = edge.getDistance() / speed * SPEED_CONV;
+
+        // add direction penalties at start/stop/via points
+        boolean unfavoredEdge = edge.getBool(EdgeIteratorState.K_UNFAVORED_EDGE, false);
+        if (unfavoredEdge)
+            time += headingPenalty;
+
+        return time;
+    }
+
     @Override
     public double calcWeight(EdgeIteratorState edge, boolean reverse, int prevOrNextEdgeId) {
         CHEdgeIteratorState tmp = (CHEdgeIteratorState) edge;
         if (tmp.isShortcut()) {
-            // if a shortcut is in both directions the weight is identical => no need for 'reverse'
+            //If a shortcut is in both directions the weight is identical => no need for 'reverse'
             double speed = tmp.getWeight();
+            //Check for zero to avoid infinities
             if (speed == 0) {
                 return Double.POSITIVE_INFINITY;
-            } else if (speed > userMaxSpeed) {
-                speed = userMaxSpeed;
-
-
-                double time = edge.getDistance() / speed * SPEED_CONV;
-
-                // add direction penalties at start/stop/via points
-                boolean unfavoredEdge = edge.getBool(EdgeIteratorState.K_UNFAVORED_EDGE, false);
-                if (unfavoredEdge)
-                    time += headingPenalty;
-
-                return time;
-            } else {
-                double time = edge.getDistance() / speed * SPEED_CONV;
-
-                // add direction penalties at start/stop/via points
-                boolean unfavoredEdge = edge.getBool(EdgeIteratorState.K_UNFAVORED_EDGE, false);
-                if (unfavoredEdge)
-                    time += headingPenalty;
-
-                return time;
             }
+            //Find the minimum of the two values. if (speed > userMaxSpeed) -> userMaxSpeed, else -> speed
+            speed =  java.lang.Math.min(userMaxSpeed, speed);
+            //Convert speed to time
+            return speedToTime(speed, edge);
         }
         else{
+            //If it is not a shortcut we need to test both directions
             double speed = reverse ? flagEncoder.getReverseSpeed(edge.getFlags()) : flagEncoder.getSpeed(edge.getFlags());
-        if (speed == 0) {
-            return Double.POSITIVE_INFINITY;
-        } else if (speed > userMaxSpeed) {
-            speed = userMaxSpeed;
-
-
-            double time = edge.getDistance() / speed * SPEED_CONV;
-
-            // add direction penalties at start/stop/via points
-            boolean unfavoredEdge = edge.getBool(EdgeIteratorState.K_UNFAVORED_EDGE, false);
-            if (unfavoredEdge)
-                time += headingPenalty;
-
-            return time;
-        } else {
-                return super.calcWeight(edge, reverse, prevOrNextEdgeId);
+            if (speed == 0) {
+                return Double.POSITIVE_INFINITY;
+            }
+            //Find the minimum of the two values. if (speed > userMaxSpeed) -> userMaxSpeed, else -> speed
+            speed =  java.lang.Math.min(userMaxSpeed, speed);
+            //Convert speed to time
+            return speedToTime(speed, edge);
         }
-    }
     }
 
     @Override
