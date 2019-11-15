@@ -42,7 +42,14 @@ public class MaximumSpeedWeighting extends FastestWeighting {
 
                 return time;
             } else {
-                return speed;
+                double time = edge.getDistance() / speed * SPEED_CONV;
+
+                // add direction penalties at start/stop/via points
+                boolean unfavoredEdge = edge.getBool(EdgeIteratorState.K_UNFAVORED_EDGE, false);
+                if (unfavoredEdge)
+                    time += headingPenalty;
+
+                return time;
             }
         }
         else{
