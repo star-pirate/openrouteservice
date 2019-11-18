@@ -29,7 +29,6 @@ public class MatrixRequest extends ServiceRequest
 	private boolean _resolveLocations = false;
 	private boolean _flexibleMode = false;
 	private String _algorithm;
-	private double _userSpeed;
 
 	public MatrixRequest()
 	{
@@ -122,13 +121,5 @@ public class MatrixRequest extends ServiceRequest
 
 	public boolean isValid(){
 		return !(_sources == null && _destinations == null);
-	}
-
-	public double getUserSpeed(){
-		return this._userSpeed;
-	}
-
-	public void setUserSpeed(double userSpeed){
-		this._userSpeed=userSpeed;
 	}
 }

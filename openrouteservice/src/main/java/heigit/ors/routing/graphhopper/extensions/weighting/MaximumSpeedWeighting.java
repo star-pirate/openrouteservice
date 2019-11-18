@@ -38,7 +38,10 @@ public class MaximumSpeedWeighting extends FastestWeighting {
         CHEdgeIteratorState tmp = (CHEdgeIteratorState) edge;
         if (tmp.isShortcut()) {
             //If a shortcut is in both directions the weight is identical => no need for 'reverse'
-            double speed = tmp.getWeight();
+            //tmp.getWeight() is in time so we first change it to speed
+            double time = tmp.getWeight();
+            double distance = edge.getDistance();
+            double speed = edge.getDistance()/ tmp.getWeight();
             //Check for zero to avoid infinities
             if (speed == 0) {
                 return Double.POSITIVE_INFINITY;

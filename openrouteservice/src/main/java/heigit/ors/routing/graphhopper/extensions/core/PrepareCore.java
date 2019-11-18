@@ -508,7 +508,6 @@ public class PrepareCore extends AbstractAlgoPreparation implements RoutingAlgor
         // TODO: Proper way of switching between Dijkstra and AStar in core
         String algoStr = ASTAR_BI;
 
-        String test = opts.getHints().get("weighting_method","fastest");
         Weighting testWeighting = opts.getWeighting();
         if (ASTAR_BI.equals(algoStr)) {
             if(opts.getHints().get("weighting_method","fastest") == "maximum_speed") {

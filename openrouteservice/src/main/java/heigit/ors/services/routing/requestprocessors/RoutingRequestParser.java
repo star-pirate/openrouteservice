@@ -255,27 +255,6 @@ public class RoutingRequestParser
 		if (!Helper.isEmpty(value))
 			req.setId(value);
 
-
-		value = request.getParameter("user_speed");
-		if (!Helper.isEmpty(value)){
-			try{
-				double speed=Double.parseDouble(value);
-				if(speed < (double)80){
-					throw new ParameterValueException(RoutingErrorCodes.INVALID_PARAMETER_FORMAT, "user_speed");
-				}
-			}
-			catch(Exception ex)
-			{
-				throw new ParameterValueException(RoutingErrorCodes.INVALID_PARAMETER_FORMAT, "user_speed");
-			}
-			req.setUserSpeed(Double.parseDouble(value));
-			searchParams.setUserSpeed(Double.parseDouble(value));
-			//Use it until finding an alternative to this deprecated class!
-			//MaximumSpeedWeighting.setUserRouteSearchParametersMaxSpeed(Double.parseDouble(value));
-			//MaximumSpeedWeighting.setUserRoutingRequestMaxSpeed(Double.parseDouble(value));
-
-		}
-
 		return req;
 
 	}

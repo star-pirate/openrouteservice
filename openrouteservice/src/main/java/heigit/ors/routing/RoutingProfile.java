@@ -729,8 +729,7 @@ public class RoutingProfile {
                     req.getHints().put("weighting_method", "shortest");
                     flexibleMode = true;
                 } else if (weightingMethod == WeightingMethod.RECOMMENDED) {
-                    req.setWeighting("maximum_speedb ram" +
-                            "");
+                    req.setWeighting("fastest");
                     req.getHints().put("weighting_method", "recommended");
                     flexibleMode = true;
                 }
