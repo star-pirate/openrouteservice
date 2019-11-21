@@ -17,13 +17,15 @@ import com.graphhopper.routing.util.EdgeFilter;
 import com.graphhopper.storage.GraphStorage;
 import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.routing.util.FlagEncoder;
+import heigit.ors.config.AppConfig;
 import heigit.ors.routing.graphhopper.extensions.storages.GraphStorageUtils;
 import heigit.ors.routing.graphhopper.extensions.storages.HeavyVehicleAttributesGraphStorage;
 
 
+
 public class MaximumSpeedCoreEdgeFilter implements EdgeFilter {
     private HeavyVehicleAttributesGraphStorage storage;
-    private double setSpeed = 80; //Minimum speed of the core.
+    private double maxSpeed = Double.parseDouble(AppConfig.Global().getServiceParameter("routing.profiles.default_params","max_speed")); //Minimum speed of the core.
     public final FlagEncoder flagEncoder;
 
     public MaximumSpeedCoreEdgeFilter(FlagEncoder encoder, GraphStorage graphStorage) {
@@ -35,11 +37,7 @@ public class MaximumSpeedCoreEdgeFilter implements EdgeFilter {
 
     @Override
     public boolean accept(EdgeIteratorState edge) {
-        double speed ;
-        double speedFwd ;
-        if ( flagEncoder.getReverseSpeed(edge.getFlags()) > setSpeed || flagEncoder.getSpeed(edge.getFlags()) > setSpeed ) { //If the max speed of the road is greater than that of the limit include it in the core.
-            speed = flagEncoder.getReverseSpeed(edge.getFlags());
-            speedFwd = flagEncoder.getSpeed(edge.getFlags());
+        if ( flagEncoder.getReverseSpeed(edge.getFlags()) > maxSpeed || flagEncoder.getSpeed(edge.getFlags()) > maxSpeed ) { //If the max speed of the road is greater than that of the limit include it in the core.
             return false;
         } else {
             return true;
