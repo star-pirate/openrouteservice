@@ -21,7 +21,11 @@ import heigit.ors.config.AppConfig;
 import heigit.ors.routing.graphhopper.extensions.storages.GraphStorageUtils;
 import heigit.ors.routing.graphhopper.extensions.storages.HeavyVehicleAttributesGraphStorage;
 
-
+/**
+ * This class includes in the core all edges with speed more than the one set in the app.config file max_speed.
+ *
+ * @author Athanasios Kogios
+ */
 
 public class MaximumSpeedCoreEdgeFilter implements EdgeFilter {
     private HeavyVehicleAttributesGraphStorage storage;

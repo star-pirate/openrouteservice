@@ -7,6 +7,11 @@ import com.graphhopper.util.CHEdgeIteratorState;
 import com.graphhopper.util.EdgeIteratorState;
 import com.graphhopper.util.Parameters.Routing;
 
+/**
+ * This class creates the weighting for the routing according to the maximum speed set by user.
+ *
+ * @author Athanasios Kogios
+ */
 
 public class MaximumSpeedWeighting extends FastestWeighting {
     protected final static double SPEED_CONV = 3.6; //From km/h to m/s.
@@ -22,7 +27,7 @@ public class MaximumSpeedWeighting extends FastestWeighting {
     }
 
     private double speedToTime_km_h(double speed, EdgeIteratorState edge){
-        //Conversion of the speeds taken from the edges into time adding the penalties
+        //Conversion of the speeds (km/h) to times taken from the edges into time adding the penalties
         double time = edge.getDistance() / speed * SPEED_CONV;
 
         // add direction penalties at start/stop/via points
@@ -34,7 +39,7 @@ public class MaximumSpeedWeighting extends FastestWeighting {
     }
 
     private double speedToTime_m_s(double speed, EdgeIteratorState edge){
-        //Conversion of the speeds taken from the edges into time adding the penalties
+        //Conversion of the speeds (m/s) to times taken from the edges into time adding the penalties
         double time = edge.getDistance() / speed;
 
         // add direction penalties at start/stop/via points
